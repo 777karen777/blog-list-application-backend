@@ -1,4 +1,5 @@
 const express = require('express')
+require('express-async-errors')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -12,13 +13,16 @@ mongoose.set('strictQuery', false)
 
 logger.info('connecting to', config.MONGODB_URI)
 
-mongoose.connect(config.MONGODB_URI)
-  .then(() => {
+const connectToDatabase = async () => {
+  try {
+    await mongoose.connect(config.MONGODB_URI)
     logger.info('connected to  MongoDB')
-  })
-  .catch((error) => {
-    logger.error('error connecting to MongoDB:', error.message)
-  })
+  } catch (exeption)  {
+    logger.error('error connecting to MongoDB:', exeption.message)
+  }
+}
+
+connectToDatabase()
 
 app.use(cors())
 app.use(express.static('dist'))
