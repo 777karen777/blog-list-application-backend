@@ -111,7 +111,23 @@ describe('API calls', () => {
     assert(response.body.every(blog => 'likes' in blog))
     assert.strictEqual(response.body[lastIndex].likes, 0)
   })
+  
+  test('responds with the status code 400 Bad Request if the title or url properties are missing from the request data', async () => {
+    const beforePost =  await helper.blogsInDb()
 
+    const newBlog = {
+      // title: 'Added with missing "title" or "autor" property',
+      author: 'TTT',
+      url: 'url_String8',
+    }
+
+    const postResp = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+    
+  })
   
 
 })
