@@ -63,6 +63,32 @@ describe('API calls', () => {
     });
   })
 
+  test('A new blog post is successfully created', async () => {
+    const beforePost =  await helper.blogsInDb()
+
+    const newBlog = {
+      title: 'Added with POST',
+      author: 'TTT',
+      url: 'url_String5',
+      likes: 77
+    }
+
+    /* const postResp =  */await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+    
+    // console.log(postResp)
+    const response = await api.get('/api/blogs')
+
+    const titles = response.body.map(blog => blog.title)
+
+    assert.strictEqual(response.body.length, beforePost.length + 1)
+
+    assert(titles.includes('Added with POST'))
+  })
+
   
 
 })
