@@ -88,6 +88,29 @@ describe('API calls', () => {
 
     assert(titles.includes('Added with POST'))
   })
+  
+  test(' if the likes property is missing from the request, it will default to the value 0', async () => {
+    const beforePost =  await helper.blogsInDb()
+
+    const newBlog = {
+      title: 'Added with missing "likes" property',
+      author: 'TTT',
+      url: 'url_String7',
+    }
+
+    const postResp = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+    
+    // console.log(postResp)
+
+    const response = await api.get('/api/blogs')
+    const lastIndex = response.body.length - 1
+    assert(response.body.every(blog => 'likes' in blog))
+    assert.strictEqual(response.body[lastIndex].likes, 0)
+  })
 
   
 
