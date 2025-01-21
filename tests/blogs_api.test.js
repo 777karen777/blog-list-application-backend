@@ -128,7 +128,48 @@ describe('API calls', () => {
     .expect('Content-Type', /application\/json/)
     
   })
-  
+
+  test('deletion succeeds with status code 204', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const ids = blogsAtEnd.map(blog => blog.id)
+
+    assert(!ids.includes(blogToDelete.id))
+    assert.strictEqual(blogsAtStart.length - 1, blogsAtEnd.length)
+  })
+
+  test('blog update succeeds with status code 200', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+
+    const updatedProps = {
+      author: `${blogToUpdate.author} (updated)`,
+      likes: blogToUpdate.likes + 1,
+      sum: 'kkk'
+    }
+
+    const updated = await api.put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedProps)
+      .expect(200)
+
+    assert.strictEqual(updated.body.title, blogToUpdate.title)
+    assert.strictEqual(updated.body.author, updatedProps.author)
+    assert.strictEqual(updated.body.author, updatedProps.author)
+    assert.strictEqual(updated.body.likes, updatedProps.likes)
+    assert.strictEqual(updated.body.sum, undefined)
+
+    // console.log(blogToUpdate);
+    // console.log("Then");
+    // console.log(updated.body);
+    
+  })  
 
 })
 
