@@ -2,8 +2,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {    
-    "title": "Blog 6",
-    "author": "Msf",
-    "url": "url_String",
-    "durfl": "url_String"
+    "title": "Blog 777",
+    "author": "Mskf",
+    "url": "url_String77",
+    "durfl": "url_String77",
+    "userId": "67a1245f983b9db30e0ddcb7"
 }

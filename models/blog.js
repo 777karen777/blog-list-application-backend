@@ -19,12 +19,18 @@ const blogSchema = new mongoose.Schema({
   likes: {
 		type: Number,
 		required: false
-	} 
+	},
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	}
 })
 
 blogSchema.set('toJSON', {
 	transform: (document, returnedObject) => {
-		returnedObject.id = returnedObject._id.toString()
+		if (returnedObject._id) { // I added this because when excluding id field from populate in controllers/users usersRouter.get route I get error.
+			returnedObject.id = returnedObject._id.toString()
+		}
 		delete returnedObject._id
 		delete returnedObject.__v
 	}
