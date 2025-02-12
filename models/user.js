@@ -3,16 +3,18 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+    minlength: 3,
     unique: true,
     // validate: (v) => {
-    //   return /^[a-zA-Z](?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9_.-]+$/.test(v) && v.length >= 5 && v.length <= 15
+    //   return /^[a-zA-Z](?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9_.-]+$/.test(v) && /* v.length >= 3 && */ v.length <= 15
     // }
   },
   name: String,
   passwordHash: {
     type: String,
+    // minlength: 3,
     // validate: (v) => {
-    //   return /^[a-zA-Z](?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9_.-]+$/.test(v) && v.length >= 5 && v.length <= 15
+    //   return /^[a-zA-Z](?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9_.-]+$/.test(v) && v.length >= 3 && v.length <= 15
     // }
   },
   blogs: [
