@@ -15,13 +15,13 @@ blogsRouter.get('/:id', async (request, response) => {
   response.json(blogs)      
 })
 
-const gettokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  return null
-}
+// const gettokenFrom = request => {
+//   const authorization = request.get('authorization')
+//   if (authorization && authorization.startsWith('Bearer ')) {
+//     return authorization.replace('Bearer ', '')
+//   }
+//   return null
+// }
   
 blogsRouter.post('/', async (request, response) => {
   const reqBody = {...request.body, likes: (request.body.likes || 0)}
@@ -29,7 +29,9 @@ blogsRouter.post('/', async (request, response) => {
   // console.log('request body is as follows: ', reqBody);
   // await Blog.deleteMany({})
 
-  const decodedToken = jwt.verify(gettokenFrom(request), process.env.SECRET)
+  // const decoded = jwt.decode(request.token)
+  // console.log('Decoded : ', decoded)
+  const decodedToken = jwt.verify(/* gettokenFrom(request) */request.token, process.env.SECRET)
   if (!decodedToken.id) {
     return response.status(401).json({error: 'token invalid' })
   }

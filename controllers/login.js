@@ -26,8 +26,16 @@ loginRouter.post('/', async (request, response) => {
   const token = jwt.sign(
     userForToken,
     process.env.SECRET,
-    { expiresIn: 60*60 }
+    { expiresIn: '5m' }
+
+    // { username: user.username, id: user._id },
+    // process.env.SECRET,
+    // { algorithm: 'HS256', expiresIn: '5m' }
   )
+
+
+  // console.log('Generated Token:', token)
+  // console.log('Decoded Token:', jwt.decode(token))
   
   response
     .status(200)
