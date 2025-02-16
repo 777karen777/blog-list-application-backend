@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtuaWtvZ2hvIiwiaWQiOiI2N2E3NWUwMDNjNGQxNjQ5OTU0MDVkOTAiLCJpYXQiOjE3Mzk1MzI5NjcsImV4cCI6MTczOTUzMzI2N30.W560eF_GJ133u579usS-TVS1bnP-IorS_LqZvqS5cu4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtuaWtvZ2hvIiwiaWQiOiI2N2E3NWUwMDNjNGQxNjQ5OTU0MDVkOTAiLCJpYXQiOjE3Mzk2ODExNzcsImV4cCI6MTczOTY4NDc3N30.Q5noyYIn6cdlwMo0MoZZoad7npCLQ82zs0dFfR3ZHIU
 
 {    
-    "title": "Blog 55555555",
+    "title": "Blog 22222222",
     "author": "Mskf",
     "url": "url_String77",
     "durfl": "url_String77"
