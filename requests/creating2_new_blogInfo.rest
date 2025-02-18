@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{    
+    "title": "Blog 1111111",
+    "author": "Mskf",
+    "url": "url_String77",
+    "durfl": "url_String77"
+}

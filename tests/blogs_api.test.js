@@ -67,7 +67,7 @@ describe('Some initial API calls', () => {
   })
 })
 
-describe('Tests for Post requests', () => {
+describe('Tests for  requests', () => {
   let userId = null
   let token = null
 
@@ -207,13 +207,13 @@ describe('Tests for Post requests', () => {
   })
   
   describe('Trying to add a blog',() => {
-    // await Blog.deleteMany({})
-
+    
     test('A new blog post creation fails without Authorization', async () => {
+      // await Blog.deleteMany({})
       const blogsAtStart =  await helper.blogsInDb()
       
       const newBlog = {
-        title: 'This post wont be added, becouse of authorization line is commented in the request',
+        title: 'This post wont be added, because of authorization line is commented in the request',
         author: 'KaNi',
         url: 'url_String5',
         likes: 7777,
@@ -226,7 +226,7 @@ describe('Tests for Post requests', () => {
       .expect(401)
       .expect('Content-Type', /application\/json/)
 
-    assert(result.body.error.includes('token invalid'))
+    assert(result.body.error.includes('missing token'))
 
     const blogsAtEnd = await helper.blogsInDb()
 
@@ -348,7 +348,7 @@ describe('Tests for Post requests', () => {
   describe('Updating a blog', () => {
     test('blog update succeeds with status code 200', async () => {
       const blogsAtStart = await helper.blogsInDb()
-      const blogToUpdate = blogsAtStart[0]
+      const blogToUpdate = blogsAtStart[blogsAtStart.length - 1]
     
       const updatedProps = {
         author: `${blogToUpdate.author} (updated)`,
@@ -356,7 +356,9 @@ describe('Tests for Post requests', () => {
         sum: 'kkk'
       }
     
-      const updated = await api.put(`/api/blogs/${blogToUpdate.id}`)
+      const updated = await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .set('Authorization', `Bearer ${token}`)
         .send(updatedProps)
         .expect(200)
     
@@ -373,11 +375,14 @@ describe('Tests for Post requests', () => {
   describe('Deleting a blog', () => {
     test('deletion succeeds with status code 204', async () => {
       const blogsAtStart = await helper.blogsInDb()
+      // console.log('\n\nHHHHEEEERRRREEE\n\n');
+      
     
-      const blogToDelete = blogsAtStart[0]
+      const blogToDelete = blogsAtStart[blogsAtStart.length - 1]
     
       await api
         .delete(`/api/blogs/${blogToDelete.id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(204)
     
       const blogsAtEnd = await helper.blogsInDb()

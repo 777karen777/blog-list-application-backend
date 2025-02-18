@@ -43,12 +43,13 @@ blogsRouter.post('/', async (request, response) => {
  */
   const user = request.user
 
-  console.log("The user: ", user);
+  // console.log("The user: ", user);
   
-
+  
   const blog = new Blog({...reqBody, user: user._id})
-
+  
   const savedBlog = await blog.save()
+  // console.log("The saved blog :\n ", savedBlog);
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
@@ -77,7 +78,11 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 
   // console.log('users blogs : ', theUser.blogs);
-  console.log('The user Id is: ', request.user._id.toString());
+  // console.log('\nThe blog is: \n   ', blogToDelete);
+  
+  // console.log('The blogToDelete user Id is: ', blogToDelete.user.toString());
+
+  // console.log('The user Id is: ', request.user._id.toString());
   
 
   if (blogToDelete.user.toString() !== /* decodedToken.id */request.user._id.toString()) {

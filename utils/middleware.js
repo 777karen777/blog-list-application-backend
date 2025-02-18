@@ -17,6 +17,7 @@ const unknownEndpoint = (request, response) => {
 }
 
 const tokenExtractor = (request, response, next) => {
+  // console.log('I am in tokenExtractor!');
   
   const authorization = request.get('authorization')
   if (authorization && authorization.startsWith('Bearer ')) {
@@ -29,16 +30,71 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const userExtractor = async (request, response, next) => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    if (!decodedToken.id) {
-      return response.status(404).json({error: 'invalid token'})
-    }
-    request.user = await User.findById(decodedToken.id)
+
+  if (request.method === 'GET') {
+    return next()
   }
+  
+  // console.log('I am in userExtractor!');
+  const authorization = request.get('authorization')
+  // console.log('\n\nHHHHEEEERRRREEE in middle\n\n');
+
+  if (authorization && authorization.startsWith('Bearer ')) {
+    try {
+      const decodedToken = jwt.verify(request.token, process.env.SECRET)
+      if (!decodedToken.id) {
+        return response.status(404).json({error: 'invalid token'})
+      }
+      const user = await User.findById(decodedToken.id)
+
+      request.user = await User.findById(decodedToken.id)
+      if (!user) {
+        return response.status(404).json({ error: 'user not found' })
+      }
+      request.user = user
+    } catch (error) {
+      return next(error)
+    }
+    // if (!request.user) {
+    //   return response.status(404).json({error: 'invalid token'})
+    // }
+  } else {
+    return response.status(401).json({ error: 'missing token'})
+  }
+
   next()
 }
+
+
+/* const userExtractor = async (request, response, next) => {
+  if (request.method === 'GET') {
+    return next()
+  }
+
+  const authorization = request.get('authorization')
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    return response.status(401).json({ error: 'missing token' })
+  }
+
+  try {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'invalid token' })
+    }
+
+    const user = await User.findById(decodedToken.id)
+    if (!user) {
+      return response.status(404).json({ error: 'user not found' })
+    }
+
+    request.user = user
+  } catch (error) {
+    return next(error)
+  }
+
+  next()
+} */
+
 
 const errorHandler = (error, request, response, next) => {
   logger.error(error.message)

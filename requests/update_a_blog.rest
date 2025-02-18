@@ -1,6 +1,10 @@
-PUT http://localhost:3003/api/blogs/6780b2190918ab971e923a95 HTTP/1.1
+PUT http://localhost:3003/api/blogs/67b0ef40c541c298feec5bb0 HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtuaWtvZ2hvIiwiaWQiOiI2N2E3NWUwMDNjNGQxNjQ5OTU0MDVkOTAiLCJpYXQiOjE3Mzk4MjEwMDAsImV4cCI6MTczOTg1NzAwMH0.VI5Kqku1xm-CBm7Mqv8aBYnb50jpl4oh4fBGYVkFX00
+
 
 {
-  "author": "Kp"
+  "user": "67a75e003c4d164995405d90",
+  "KK": "dfg",
+  "author": "Kkkkk"
 }
