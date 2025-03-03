@@ -27,6 +27,9 @@ blogsRouter.get('/:id', async (request, response) => {
 // }
   
 blogsRouter.post('/', async (request, response) => {
+  const authorization = request.get('authorization')
+  // console.log('\n\nHHHHEEEERRRREEE in middle\n\n');
+  // console.log('AUTH is : ', authorization)
   const reqBody = {...request.body, likes: (request.body.likes || 0)}
   //
   // console.log('request body is as follows: ', reqBody);

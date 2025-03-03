@@ -20,6 +20,8 @@ const tokenExtractor = (request, response, next) => {
   // console.log('I am in tokenExtractor!');
   
   const authorization = request.get('authorization')
+  // console.log("From Middleware 23: ", authorization);
+  
   if (authorization && authorization.startsWith('Bearer ')) {
     request.token = authorization.replace('Bearer ', '')
   } else {
@@ -36,10 +38,11 @@ const userExtractor = async (request, response, next) => {
   }
   
   // console.log('I am in userExtractor!');
-  const authorization = request.get('authorization')
-  // console.log('\n\nHHHHEEEERRRREEE in middle\n\n');
+/*   const authorization = request.get('authorization')
+ */  // console.log('\n\nHHHHEEEERRRREEE in middle\n\n');
+  // console.log('AUTH is : ', authorization)
 
-  if (authorization && authorization.startsWith('Bearer ')) {
+  if (/* authorization && authorization.startsWith('Bearer ') */ request.token) {
     try {
       const decodedToken = jwt.verify(request.token, process.env.SECRET)
       if (!decodedToken.id) {
@@ -59,6 +62,7 @@ const userExtractor = async (request, response, next) => {
     //   return response.status(404).json({error: 'invalid token'})
     // }
   } else {
+    // console.log('The authorization token: ',authorization)
     return response.status(401).json({ error: 'missing token'})
   }
 
